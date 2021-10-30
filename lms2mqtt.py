@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 #
@@ -105,7 +105,7 @@ def connect_to_lms():
     global cli
     try:
         cli = telnetlib.Telnet(host=LMS_HOST, port=9090)
-        cli.write("listen 1\n")
+        cli.write(b"listen 1\n")
         logger.info("Connected to LMS")
     except:
         logger.warning("Error connecting to LMS")
@@ -119,8 +119,8 @@ def read_lms():
         connect_to_lms()
     if (cli is not None):
         try:
-            data = cli.read_until("\n")
-            logger.debug("LMS data: "+data)
+            data = cli.read_until(b"\n").decode('ascii')
+            logger.debug("raw LMS data: "+data)
             return data
         except:
             cli.close()
@@ -164,20 +164,21 @@ while (not stopped):
         continue
     if (flds[0] == 'listen'): 
         continue;
-    uflds = [urllib.unquote(i) for i in flds]
+    uflds = [urllib.parse.unquote(i) for i in flds]
 
-    if (len(uflds)==5 and uflds[2]=='newsong'):
-        continue
+#    if (len(uflds)==5 and uflds[2]=='newsong'):
+#        continue
     if (len(uflds)>=3 and uflds[1]=='menustatus'):
         continue
     if (len(uflds)>2 and uflds[1]=='displaynotify'):
         continue
 
     if (len(uflds)>3 and uflds[1]=='playlist' and uflds[2]=='play'):
-        topic = MQTT_PUB_BASE_LMS + uflds[0]+'/playlist/play/title'
-        payload = uflds[4]
-        if mqttClient is not None:
-            mqttClient.publish( topic, payload )
+        if (len(uflds)>4):
+            topic = MQTT_PUB_BASE_LMS + uflds[0]+'/playlist/play/title'
+            payload = uflds[4]
+            if mqttClient is not None:
+                mqttClient.publish( topic, payload )
         topic = MQTT_PUB_BASE_LMS + uflds[0]+'/playlist/play/item'
         payload = uflds[3]
     else:
