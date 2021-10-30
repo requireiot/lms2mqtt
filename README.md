@@ -3,7 +3,7 @@ lms2mqtt
 convert notifications from Logitech Media Server to MQTT messages
 
 ## Objective
-Publish status changes such as "song started playing" or "alarm went off" as MQTT messages, for use by home automation controllers, such as openHAB.
+Publish Logitech Media Server (LMS) status changes such as "song started playing" or "alarm went off" as MQTT messages, for use by home automation controllers, such as openHAB.
 
 ## Prerequisites
 * [Logitech Media Server](https://wiki.slimdevices.com/index.php/Logitech_Media_Server.html) (LMS), obviously, running on the same or a different machine, reachable via *servername*:9090
