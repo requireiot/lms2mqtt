@@ -16,6 +16,7 @@ Publish Logitech Media Server (LMS) status changes such as "song started playing
 * copy `lms2mqtt.py`to a directory of your choice, mine is in `/home/admin/daemons/lms2mqtt`
 * configure the name of the machine running the LMS server in `lms2mqtt.py`
 * configure the name of the machine running the MQTT broker in `lms2mqtt.py`
+* configure the portnumber of the MQTT broker in `lms2mqtt.py`
 * configure the username for the MQTT broker in `lms2mqtt.py`
 * configure the password for the MQTT broker in `lms2mqtt.py`
 * if no username or password is used comment out line 149: `mqttclient.username_pw_set(MQTT_USER, MQTT_PASSWD)` in `lms2mqtt.py`
