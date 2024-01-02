@@ -146,7 +146,7 @@ signal.signal(signal.SIGTERM, signal_handler)
 mqttClient = mqtt.Client(client_id=LMS_LOGNAME)
 mqttClient.on_connect = on_connect
 mqttClient.on_message = on_message
-mqttclient.username_pw_set(MQTT_USER, MQTT_PASSWD)    # Comment out this line if your not using a username and password for your MQTT-broker
+mqttClient.username_pw_set(MQTT_USER, MQTT_PASSWD)    # Comment out this line if your not using a username and password for your MQTT-broker
 mqttClient.connect(MQTT_BROKER, MQTT_PORT, 60)
 mqttClient.loop_start()
 
