@@ -40,6 +40,9 @@ WantedBy=multi-user.target
 ```
 * change `<user>` to the user you are using in this case: `admin`
 * change `<path-to-lms2mqtt>` to the directory where your `lms2mqtt.py` is, in this case: `daemons/lms2mqtt`
+* as root or using sudo reload systemd: `sudo systemctl daemon-reload`
+* then start lms2mqtt: `sudo systemctl start lms2mqtt.service`
+* then make it start at boot: `sudo systemctl enable lms2mqtt.service`
 <br/>
 
 * when using init.d:
