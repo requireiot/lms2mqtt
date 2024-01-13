@@ -45,8 +45,11 @@ logger.addHandler(handlerConsole)
 LMS_HOST = "media-server"
 
 #----- MQTT constants
-MQTT_BROKER = "ha-server"
-MQTT_PUB_BASE_LMS = "lms/"
+MQTT_BROKER = "ha-server"    # Change this to your MQTT server-IP or server-name
+MQTT_PORT = 1883             # Change this to your MQTT serverport. Normally 1883
+MQTT_PUB_BASE_LMS = "lms/"   # This is what your messages in MQTT start with
+MQTT_USER = "username"       # If you use a username and password change this to your username, else comment out: "mqttclient.username_pw_set(MQTT_USER, MQTT_PASSWD)" at approx. line 149
+MQTT_PASSWD = "password"     # If you use a username and password change this to your password, else comment out: "mqttclient.username_pw_set(MQTT_USER, MQTT_PASSWD)" at approx. line 149
 
 #----- try to read from /etc/default
 DEFAULT_BW="/etc/default/bw"
@@ -143,7 +146,8 @@ signal.signal(signal.SIGTERM, signal_handler)
 mqttClient = mqtt.Client(client_id=LMS_LOGNAME)
 mqttClient.on_connect = on_connect
 mqttClient.on_message = on_message
-mqttClient.connect(MQTT_BROKER, 1883, 60)
+mqttClient.username_pw_set(MQTT_USER, MQTT_PASSWD)    # Comment out this line if your not using a username and password for your MQTT-broker
+mqttClient.connect(MQTT_BROKER, MQTT_PORT, 60)
 mqttClient.loop_start()
 
 # ----- setup Telnet connection to LMS --------------------------------
