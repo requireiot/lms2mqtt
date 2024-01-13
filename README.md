@@ -16,40 +16,20 @@ Publish Logitech Media Server (LMS) status changes such as "song started playing
 * copy `lms2mqtt.py`to a directory of your choice, mine is in `/home/admin/daemons/lms2mqtt`
 * configure the name of the machine running the LMS server in `lms2mqtt.py`
 * configure the name of the machine running the MQTT broker in `lms2mqtt.py`
-* configure the portnumber of the MQTT broker in `lms2mqtt.py`
-* configure the username for the MQTT broker in `lms2mqtt.py`
-* configure the password for the MQTT broker in `lms2mqtt.py`
-* if no username or password is used comment out line 149: `mqttclient.username_pw_set(MQTT_USER, MQTT_PASSWD)` in `lms2mqtt.py`
-<br/>
+* optionally configure portnumber, username and password of the MQTT broker in `lms2mqtt.py`
 
-* when using systemd:
-* as root or using sudo: create a file `/etc/systemd/system/lms2mqtt.service` and insert:
-```
-[Unit]
-Description=MQTT for the Logitech Media Server
-After=multi-user.target
+* when using systemd (all commands as root or via sudo):
+  * copy file `lms2mqtt.service` to `/etc/systemd/system/`
+  * change `User` and ExecStart`lines as needed
+  * reload systemd: `systemctl daemon-reload`
+  * start lms2mqtt: `systemctl start lms2mqtt.service`
+  * make it start at boot: `systemctl enable lms2mqtt.service`
 
-[Service]
-WorkingDirectory=/home/<user>/
-User=<user>
-ExecStart=/usr/bin/python3 /home/<user>/<path-to-lms2mqtt>/lms2mqtt.py
-Type=simple
-
-[Install]
-WantedBy=multi-user.target
-```
-* change `<user>` to the user you are using in this case: `admin`
-* change `<path-to-lms2mqtt>` to the directory where your `lms2mqtt.py` is, in this case: `daemons/lms2mqtt`
-* as root or using sudo reload systemd: `sudo systemctl daemon-reload`
-* then start lms2mqtt: `sudo systemctl start lms2mqtt.service`
-* then make it start at boot: `sudo systemctl enable lms2mqtt.service`
-<br/>
-
-* when using init.d:
-* copy file `bw-lms2mqtt` to `/etc/init.d/` and make it executable
-* in `bw-lms2mqtt`, set the path where you stored the `lms2mqtt.py` script 
-* activate the service with `sudo update-rc.d bw-lms2mqtt defaults`
-* start the service with `sudo service bw-lms2mqtt start`
+* when using init.d (all commands as root or via sudo):
+  * copy file `bw-lms2mqtt` to `/etc/init.d/` and make it executable
+  * in `bw-lms2mqtt`, set the path where you stored the `lms2mqtt.py` script 
+  * activate the service with `sudo update-rc.d bw-lms2mqtt defaults`
+  * start the service with `sudo service bw-lms2mqtt start`
 
 ## Troubleshooting
 I have noticed that the daemon sometimes looses connection with LMS, don't quite understand why. As a dirty fix, I created a script `/root/restart-lms2mqtt.sh` that contains
